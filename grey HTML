@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#0e181d">
+  <title>Grey Digital Learning | COC Reviewer and Quiz</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <video class="background-video" autoplay muted loop playsinline aria-hidden="true" tabindex="-1">
+    <source src="Pixel%20Art%20Forest%20-%20Background.mp4" type="video/mp4">
+  </video>
+  <div class="wrap">
+    <header>
+      <h1>GREY DIGITAL LEARNING</h1>
+      <p>Review the notes, then test yourself.</p>
+    </header>
+
+    <nav id="cocnav" role="tablist" aria-label="Choose a COC"></nav>
+    <nav id="secnav" role="tablist" aria-label="Page sections">
+      <button id="tab-rev" role="tab" aria-controls="rev" aria-selected="true" type="button">Reviewer</button>
+      <button id="tab-quiz" role="tab" aria-controls="quiz" aria-selected="false" type="button">Quiz</button>
+    </nav>
+
+    <main>
+      <section id="rev" role="tabpanel" aria-labelledby="tab-rev" tabindex="0"></section>
+      <section id="quiz" role="tabpanel" aria-labelledby="tab-quiz" class="hide" hidden tabindex="0"></section>
+    </main>
+  </div>
+  <script src="main.js"></script>
+</body>
+</html>
