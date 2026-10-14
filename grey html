@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>COC 1–4 Reviewer and Quiz</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>COC 1–4 Reviewer</h1>
+      <p>Computer Systems Servicing NC II. Read the notes, then test yourself.</p>
+      <div class="chips" aria-hidden="true">
+        <span class="chip-c" style="background:var(--c1)"></span>
+        <span class="chip-c" style="background:var(--c2)"></span>
+        <span class="chip-c" style="background:var(--c3)"></span>
+        <span class="chip-c" style="background:var(--c4)"></span>
+      </div>
+    </div>
+  </header>
+
+  <nav role="tablist" aria-label="Choose a COC" id="cocnav"></nav>
+  <nav role="tablist" aria-label="Section" id="secnav">
+    <button role="tab" id="tab-rev" aria-selected="true" type="button">Reviewer</button>
+    <button role="tab" id="tab-quiz" aria-selected="false" type="button">Quiz</button>
+  </nav>
+
+  <main>
+    <section id="rev"></section>
+    <section id="quiz" class="hide"></section>
+  </main>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
