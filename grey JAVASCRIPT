@@ -1,0 +1,295 @@
+/* Reviewer and quiz content */
+const COCS = [
+  {
+    id: 1,
+    title: "COC 1: Install and configure computer systems",
+    color: "var(--c1)",
+    sub: "Safe assembly, BIOS/UEFI setup, operating system installation.",
+    notes: [
+      { h: "Safety and tools", l: ["Power off and unplug the PC before opening the case.", "Wear an <span class='k'>anti-static wrist strap</span> clipped to bare metal to prevent ESD.", "Common tools: Phillips screwdriver, tweezers, cable ties, thermal paste, multimeter.", "Hold cards and RAM by the edges, never by the contacts."] },
+      { h: "Hardware components", l: ["<span class='k'>CPU</span>: processes instructions. Apply thermal paste so heat moves into the heatsink.", "<span class='k'>RAM</span>: volatile working memory. DIMM for desktops, SO-DIMM for laptops.", "<span class='k'>Storage</span>: HDD (SATA, spinning), SSD (SATA 2.5 in), NVMe SSD (M.2 slot).", "<span class='k'>PSU</span>: the 24-pin connector powers the motherboard; the 4/8-pin powers the CPU.", "<span class='k'>Motherboard</span>: connects everything; check socket and RAM-type compatibility."] },
+      { h: "BIOS/UEFI and OS installation", l: ["<span class='k'>POST</span> (Power-On Self-Test) checks hardware at startup.", "BIOS/UEFI settings: boot priority, date/time, virtualization, secure boot.", "Install the OS from a bootable USB or DVD; set boot order first.", "<span class='k'>GPT</span> supports disks above 2 TB and UEFI; MBR is limited to 2 TB.", "Windows uses <span class='k'>NTFS</span>. Install drivers after the OS so hardware works fully."] }
+    ]
+  },
+  {
+    id: 2,
+    title: "COC 2: Set up computer networks",
+    color: "var(--c2)",
+    sub: "Cabling, IP addressing, network devices and basic configuration.",
+    notes: [
+      { h: "Cables and connectors", l: ["Cat5e UTP max segment length: <span class='k'>100 meters</span>. RJ45 has 8 pins.", "<span class='k'>T568B</span> order: white/orange, orange, white/green, blue, white/blue, green, white/brown, brown.", "<span class='k'>Straight-through</span>: PC to switch/router (both ends same standard).", "<span class='k'>Crossover</span>: same-type devices (T568A on one end, T568B on the other).", "Fiber optic uses light, resists interference, suits long distances."] },
+      { h: "IP addressing and services", l: ["IPv4 is 32 bits, written in four octets. Default Class C mask: <span class='k'>255.255.255.0</span> (/24).", "Private ranges: 10.0.0.0/8, 172.16.0.0/12, 192.168.0.0/16.", "<span class='k'>DHCP</span> assigns IP settings automatically. If it fails, Windows self-assigns 169.254.x.x (APIPA).", "<span class='k'>DNS</span> translates domain names to IP addresses.", "Default gateway is the router address used to reach other networks."] },
+      { h: "Devices, topologies and tools", l: ["<span class='k'>Switch</span>: Layer 2, forwards by MAC address. <span class='k'>Router</span>: Layer 3, forwards by IP address. <span class='k'>Hub</span>: repeats to all ports.", "<span class='k'>Star</span> topology: all nodes connect to a central switch. Most common in LANs.", "Tools: <span class='k'>ping</span> (connectivity), <span class='k'>ipconfig</span> (IP settings), tracert (path), cable tester, crimping tool.", "Ports: HTTP 80, HTTPS 443, DNS 53, FTP 21, SSH 22."] }
+    ]
+  },
+  {
+    id: 3,
+    title: "COC 3: Set up computer servers",
+    color: "var(--c3)",
+    sub: "Server roles, users and groups, storage, backup.",
+    notes: [
+      { h: "Server roles", l: ["<span class='k'>Active Directory Domain Services (AD DS)</span> gives centralized login and directory. The server holding it is a <span class='k'>domain controller</span>.", "<span class='k'>DHCP</span>, <span class='k'>DNS</span>, file, print and web servers are installed as roles in Server Manager.", "Give servers a <span class='k'>static IP</span> so clients can always find them.", "Hyper-V is Windows' built-in virtualization role."] },
+      { h: "Users, groups and policies", l: ["Organize objects in <span class='k'>Organizational Units (OUs)</span>.", "<span class='k'>Group Policy Objects (GPO)</span> apply settings to users and computers centrally. <span class='k'>gpupdate /force</span> refreshes them.", "Follow <span class='k'>least privilege</span>: give only the access needed.", "Assign permissions to groups, not individual users."] },
+      { h: "Storage and backup", l: ["<span class='k'>RAID 0</span> striping: fast, no redundancy. <span class='k'>RAID 1</span> mirroring: 2 disks, full copy. <span class='k'>RAID 5</span>: striping with parity, min 3 disks, survives 1 failure.", "RAID is not a backup. Keep separate backups.", "<span class='k'>Full</span> backup copies everything. <span class='k'>Differential</span> copies changes since the last full. <span class='k'>Incremental</span> copies changes since the last backup of any type.", "Test restores regularly and document configuration."] }
+    ]
+  },
+  {
+    id: 4,
+    title: "COC 4: Maintain and repair computer systems and networks",
+    color: "var(--c4)",
+    sub: "Preventive maintenance, troubleshooting, diagnostics, repair.",
+    notes: [
+      { h: "Troubleshooting method", l: ["1. Identify the problem. 2. Establish a theory of probable cause. 3. Test the theory. 4. Plan and implement the fix. 5. Verify full functionality. 6. <span class='k'>Document</span> findings and actions.", "Start simple: check power cable, outlet, connections, then move on.", "Ask the user what changed recently."] },
+      { h: "Preventive maintenance", l: ["Clean dust with compressed air; hold fan blades still so they do not overspin.", "Use 90% or higher isopropyl alcohol for contacts and thermal paste removal.", "Defragment HDDs only. Never defragment an SSD.", "Keep OS and antivirus updated; run <span class='k'>chkdsk</span> to check disk errors.", "Dispose of old parts and batteries as e-waste, not regular trash."] },
+      { h: "Diagnostics and repair", l: ["<span class='k'>Multimeter</span> measures voltage, current, resistance. ATX PSU wires: yellow 12 V, red 5 V, orange 3.3 V, black ground.", "<span class='k'>Beep codes</span> signal POST hardware errors (check your motherboard manual).", "Bulging or leaking capacitors mean board failure.", "CMOS battery (CR2032) failure: date/time and BIOS settings reset.", "<span class='k'>Safe Mode</span> loads minimal drivers to isolate software and driver problems."] }
+    ]
+  }
+];
+
+// Each entry: COC, question, choices, correct choice index, explanation.
+const BANK = [
+  [1,"What device protects components from electrostatic discharge?",["Surge protector","Anti-static wrist strap","UPS","Voltage regulator"],1,"An anti-static wrist strap grounds you so static does not damage components."],
+  [1,"What should you do before opening a desktop case?",["Turn the PSU switch to 115V","Remove the CMOS battery","Power off and unplug the power cable","Press the reset button"],2,"Always power off and unplug first to avoid shock and damage."],
+  [1,"What does POST stand for?",["Power-On Self-Test","Primary Operating System Test","Peripheral Output Status Check","Power Output Stability Test"],0,"POST checks basic hardware when the computer starts."],
+  [1,"Why is thermal paste applied between the CPU and heatsink?",["To glue the heatsink","To insulate the CPU","To improve heat transfer","To prevent static"],2,"It fills tiny gaps so heat moves efficiently into the heatsink."],
+  [1,"Which slot is used by an NVMe SSD?",["PCIe x16 only","SATA port","M.2","DIMM"],2,"NVMe drives commonly use the M.2 slot."],
+  [1,"Which partition style supports disks larger than 2 TB and UEFI booting?",["MBR","GPT","FAT16","EXT"],1,"GPT supports very large disks; MBR is limited to 2 TB."],
+  [1,"The 24-pin power connector from the PSU plugs into the:",["Hard drive","Graphics card","Motherboard","CPU fan"],2,"The 24-pin ATX connector powers the motherboard."],
+  [1,"Which memory loses its data when power is off?",["ROM","SSD","RAM","HDD"],2,"RAM is volatile memory."],
+  [1,"What is the default file system used when installing Windows?",["NTFS","EXT4","HFS+","FAT12"],0,"Modern Windows installs use NTFS."],
+  [1,"What is a device driver?",["A hardware repair tool","Software that lets the OS communicate with hardware","A type of virus scanner","A BIOS password"],1,"Drivers are the translation layer between the OS and hardware."],
+  [1,"Which BIOS/UEFI setting must you change to install an OS from a USB flash drive?",["Date and time","Boot priority/order","Fan speed","CPU voltage"],1,"Set the USB device first in the boot order."],
+  [1,"Which RAM type is used in laptops?",["DIMM","SO-DIMM","SIMM","RIMM"],1,"SO-DIMM is the smaller form factor used in laptops."],
+  [2,"What is the first wire color in the T568B standard (pin 1)?",["Orange","Green","White/orange","Blue"],2,"T568B pin 1 is white/orange."],
+  [2,"A straight-through cable is normally used to connect:",["PC to PC","Switch to switch (old devices)","PC to switch","Router to router"],2,"Different device types (PC to switch) use straight-through."],
+  [2,"What is the default subnet mask of a Class C network?",["255.0.0.0","255.255.0.0","255.255.255.0","255.255.255.255"],2,"Class C uses 255.255.255.0 (/24)."],
+  [2,"What does DHCP do?",["Translates names to IPs","Automatically assigns IP settings","Encrypts traffic","Filters websites"],1,"DHCP hands out IP address, mask, gateway and DNS."],
+  [2,"What does DNS do?",["Assigns MAC addresses","Translates domain names to IP addresses","Blocks malware","Routes packets"],1,"DNS maps names like example.com to IPs."],
+  [2,"A switch primarily operates at which OSI layer?",["Layer 1","Layer 2","Layer 3","Layer 7"],1,"Switches forward frames by MAC address at the Data Link layer."],
+  [2,"What is the maximum length of a Cat5e UTP cable segment?",["10 m","55 m","100 m","1000 m"],2,"The Ethernet standard limit is 100 meters."],
+  [2,"Which command tests connectivity to another host?",["ipconfig","ping","format","diskpart"],1,"ping sends ICMP echo requests to test reachability."],
+  [2,"Which is a private IPv4 address?",["8.8.8.8","200.10.1.1","172.16.5.4","11.0.0.1"],2,"172.16.0.0 to 172.31.255.255 is private."],
+  [2,"In which topology do all nodes connect to a central device?",["Bus","Ring","Star","Mesh"],2,"Star topology uses a central switch or hub."],
+  [2,"A PC shows the address 169.254.10.5. What most likely happened?",["Static IP was set","DHCP server was unreachable","DNS was misconfigured","The firewall is off"],1,"Windows self-assigns 169.254.x.x (APIPA) when DHCP fails."],
+  [2,"Which port does HTTPS use by default?",["80","21","443","25"],2,"HTTPS uses TCP 443."],
+  [3,"Active Directory Domain Services mainly provides:",["File compression","Centralized authentication and directory services","Web hosting","Disk partitioning"],1,"AD DS stores users, computers and policies, and authenticates logins."],
+  [3,"Which RAID level mirrors data across two disks?",["RAID 0","RAID 1","RAID 5","RAID 6"],1,"RAID 1 is mirroring."],
+  [3,"Which RAID level has no redundancy?",["RAID 0","RAID 1","RAID 5","RAID 10"],0,"RAID 0 stripes data for speed but any disk failure loses everything."],
+  [3,"What is the minimum number of disks for RAID 5?",["2","3","4","5"],1,"RAID 5 needs at least three disks."],
+  [3,"A server that authenticates domain logins is called a:",["Proxy server","Domain controller","Mail relay","Print server"],1,"A domain controller runs AD DS."],
+  [3,"What does a Group Policy Object (GPO) do?",["Backs up files","Centrally manages settings for users and computers","Assigns IP addresses","Scans for viruses"],1,"GPOs push configuration and security settings across the domain."],
+  [3,"Why should servers use a static IP address?",["It is faster","Clients can always find them at the same address","It uses less power","DHCP cannot work otherwise"],1,"Services like DNS and DHCP need a stable address."],
+  [3,"Which command forces an immediate Group Policy refresh?",["ipconfig /renew","gpupdate /force","chkdsk /f","netstat -a"],1,"gpupdate /force reapplies policy right away."],
+  [3,"Which backup copies only files changed since the last FULL backup?",["Incremental","Differential","Mirror","Snapshot"],1,"Differential grows each day until the next full backup."],
+  [3,"Which tool is used to add roles such as DHCP or DNS in Windows Server?",["Task Manager","Server Manager","Device Manager","Notepad"],1,"Server Manager's Add Roles and Features wizard installs roles."],
+  [3,"Organizational Units (OUs) are used to:",["Store backups","Organize AD objects and apply policies","Assign MAC addresses","Encrypt disks"],1,"OUs group users and computers so GPOs can target them."],
+  [3,"The principle of least privilege means:",["Users get admin by default","Users get only the access they need","All users share one account","Passwords never expire"],1,"Limiting access reduces risk."],
+  [4,"What is the FIRST step in the troubleshooting process?",["Replace the part","Identify the problem","Document the fix","Reinstall the OS"],1,"Gather information and identify the problem before acting."],
+  [4,"Which tool measures voltage?",["Crimper","Multimeter","Cable tester","Loopback plug"],1,"A multimeter measures voltage, current and resistance."],
+  [4,"On an ATX power supply, which wire color carries +12 V?",["Red","Orange","Yellow","Black"],2,"Yellow is 12 V, red is 5 V, orange is 3.3 V, black is ground."],
+  [4,"A PC will not turn on. What should you check first?",["Replace the motherboard","Power cable and outlet","Reinstall Windows","Flash the BIOS"],1,"Check the simplest causes first."],
+  [4,"Which should NOT be defragmented?",["HDD","SSD","External HDD","Old SATA drive"],1,"Defragmenting SSDs adds wear and gives no benefit."],
+  [4,"Bulging capacitors on a motherboard indicate:",["Normal operation","Component failure","Overclocking support","A new board"],1,"Swollen capacitors are failing."],
+  [4,"What do BIOS beep codes indicate?",["Network speed","POST hardware errors","Virus infections","Low disk space"],1,"Beep patterns report hardware faults found during POST."],
+  [4,"What is Safe Mode used for?",["Faster gaming","Troubleshooting with minimal drivers and services","Installing Office","Overclocking"],1,"It loads only essential drivers to isolate problems."],
+  [4,"A computer keeps resetting date and time. Which part is likely failing?",["PSU","CMOS battery","RAM","GPU"],1,"The CR2032 CMOS battery keeps BIOS settings and clock."],
+  [4,"Which Windows command checks a disk for errors?",["ping","chkdsk","tracert","gpupdate"],1,"chkdsk scans and repairs file system errors."],
+  [4,"What is the LAST step of the troubleshooting process?",["Test the theory","Verify functionality","Document findings and actions","Identify the problem"],2,"Document what was found, what was done and the outcome."],
+  [4,"Which is a preventive maintenance task?",["Replacing a dead PSU","Cleaning dust and updating antivirus","Reinstalling after a crash","Recovering deleted files"],1,"Preventive tasks are done before something fails."]
+].map(([c, q, options, answer, explanation], id) => ({ id, c, q, options, answer, explanation }));
+
+const $ = selector => document.querySelector(selector);
+const colorFor = id => `var(--c${id})`;
+const shuffle = items => {
+  const result = [...items];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [result[i], result[j]] = [result[j], result[i]];
+  }
+  return result;
+};
+const store = {
+  get(key) {
+    try { return JSON.parse(localStorage.getItem(key)); } catch { return null; }
+  },
+  set(key, value) {
+    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* storage may be unavailable */ }
+  }
+};
+
+let scope = 1;
+let run = null;
+
+function showTab(tab) {
+  const showReviewer = tab === "rev";
+  const reviewer = $("#rev");
+  const quiz = $("#quiz");
+  reviewer.classList.toggle("hide", !showReviewer);
+  reviewer.hidden = !showReviewer;
+  quiz.classList.toggle("hide", showReviewer);
+  quiz.hidden = showReviewer;
+  $("#tab-rev").setAttribute("aria-selected", String(showReviewer));
+  $("#tab-quiz").setAttribute("aria-selected", String(!showReviewer));
+  $("#tab-rev").tabIndex = showReviewer ? 0 : -1;
+  $("#tab-quiz").tabIndex = showReviewer ? -1 : 0;
+  if (!showReviewer && !run) renderSetup();
+}
+
+function renderReviewer() {
+  const coc = COCS.find(item => item.id === scope);
+  $("#rev").innerHTML = `
+    <article class="coc" style="--col:${coc.color}">
+      <h2>${coc.title}</h2>
+      <p class="sub">${coc.sub}</p>
+      ${coc.notes.map(note => `
+        <section class="note-section">
+          <h3>${note.h}</h3>
+          <ul>${note.l.map(line => `<li>${line}</li>`).join("")}</ul>
+        </section>`).join("")}
+      <button class="btn quiz-launch" type="button" data-quiz="${coc.id}">Quiz me on COC ${coc.id}<span aria-hidden="true"> →</span></button>
+    </article>`;
+  $("[data-quiz]").addEventListener("click", () => {
+    showTab("quiz");
+    renderSetup();
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  });
+}
+
+function renderSetup() {
+  const best = store.get("coc-best") || {};
+  $("#quiz").innerHTML = `
+    <div class="panel setup" style="--col:${colorFor(scope)}">
+      <p class="tag">COC ${scope} · QUIZ</p>
+      <h2>Ready to test yourself?</h2>
+      <p class="setup-copy">Take the full 12-question quiz. Questions and answer choices are shuffled each time.</p>
+      <div><button class="btn" id="start" type="button">Start 12-question quiz <span aria-hidden="true">→</span></button></div>
+      <p class="best">${best[scope] != null ? `Your best score for this COC: ${best[scope]}%` : "No score saved yet — your best score will appear here."}</p>
+    </div>`;
+  $("#start").addEventListener("click", () => startQuiz(BANK.filter(question => question.c === scope)));
+}
+
+function startQuiz(pool) {
+  const numberOfQuestions = pool.length;
+  const questions = shuffle(pool).slice(0, numberOfQuestions).map(question => ({
+    ...question,
+    choices: shuffle(question.options.map((text, index) => ({ text, correct: index === question.answer })))
+  }));
+  run = { questions, index: 0, score: 0, answers: [] };
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const question = run.questions[run.index];
+  const progress = Math.round((run.index / run.questions.length) * 100);
+  $("#quiz").innerHTML = `
+    <div class="panel" style="--col:${colorFor(question.c)}">
+      <div class="bar" role="progressbar" aria-label="Quiz progress" aria-valuenow="${progress}" aria-valuemin="0" aria-valuemax="100"><i style="width:${progress}%"></i></div>
+      <div class="meta"><span class="tag">COC ${question.c}</span><span>Question ${run.index + 1} of ${run.questions.length}</span></div>
+      <p class="q">${question.q}</p>
+      <div id="opts">${question.choices.map((choice, index) => `<button class="opt" type="button" data-index="${index}"><b>${"ABCD"[index]}.</b><span>${choice.text}</span></button>`).join("")}</div>
+      <div id="fb" aria-live="polite"></div>
+    </div>`;
+  document.querySelectorAll(".opt").forEach(button => {
+    button.addEventListener("click", () => answerQuestion(Number(button.dataset.index)));
+  });
+  // Keyboard shortcuts let learners answer with A, B, C, or D.
+  $("#opts").addEventListener("keydown", event => {
+    const shortcutIndex = "abcd".indexOf(event.key.toLowerCase());
+    if (shortcutIndex < 0) return;
+    const choiceButton = $(`.opt[data-index="${shortcutIndex}"]`);
+    if (choiceButton && !choiceButton.disabled) choiceButton.click();
+  });
+}
+
+function answerQuestion(selectedIndex) {
+  if (!run || selectedIndex < 0 || selectedIndex > 3 || run.answers.length > run.index) return;
+  const question = run.questions[run.index];
+  if (!question || !question.choices[selectedIndex]) return;
+  const isCorrect = question.choices[selectedIndex].correct;
+  if (isCorrect) run.score++;
+  run.answers.push({ question, isCorrect });
+  document.querySelectorAll(".opt").forEach((button, index) => {
+    button.disabled = true;
+    if (question.choices[index].correct) button.classList.add("right");
+    else if (index === selectedIndex) button.classList.add("wrong");
+  });
+  const isLast = run.index === run.questions.length - 1;
+  $("#fb").innerHTML = `<div class="exp" role="status"><b>${isCorrect ? "Correct!" : "Not quite."}</b> ${question.explanation}</div><button class="btn" id="next" type="button">${isLast ? "See results" : "Next question"}<span aria-hidden="true"> →</span></button>`; $("#next").focus(); $("#next").addEventListener("click", () => { if (isLast) renderResults(); else { run.index++; renderQuestion(); } });
+}
+
+function renderResults() {
+  const total = run.questions.length;
+  const percentage = Math.round((run.score / total) * 100);
+  const best = store.get("coc-best") || {};
+  const isBest = best[scope] == null || percentage > best[scope];
+  if (isBest) { best[scope] = percentage; store.set("coc-best", best); }
+  const missed = run.answers.filter(answer => !answer.isCorrect);
+  const verdict = percentage >= 85
+    ? "Excellent work — you are ready for the assessment."
+    : percentage >= 70
+      ? "Good progress. Review the missed questions and try again."
+      : "Keep practicing. Review the notes for the topics you missed.";
+  $("#quiz").innerHTML = `
+    <div class="panel">
+      <p class="tag">COC ${scope} · RESULTS</p>
+      <div class="score">${percentage}%</div>
+      <p class="result-copy"><b>${run.score} of ${total} correct.</b> ${verdict}${isBest && total >= 5 ? " New personal best!" : ""}</p>
+      ${missed.length ? `<h3 class="review-misses">Review your missed questions</h3>${missed.map(({ question }, index) => `
+        <details class="quiz-review-item"><summary><span class="review-index">Question ${index + 1}</span>${question.q}</summary><div class="quiz-review-content"><p class="answer-key">Correct answer: ${question.options[question.answer]}</p><p class="miss-explanation">${question.explanation}</p></div></details>`).join("")}` : "<p>Perfect score — nothing to review.</p>"}
+      <div class="result-actions">
+        ${missed.length ? `<button class="btn" id="retry" type="button">Retry missed (${missed.length})</button>` : ""}
+        <button class="btn ${missed.length ? "alt" : ""}" id="again" type="button">New quiz</button>
+        <button class="btn alt" id="back-review" type="button">Back to reviewer</button>
+      </div>
+    </div>`;
+  if ($("#retry")) {
+    $("#retry").addEventListener("click", () => {
+      const missedQuestions = missed.map(item => item.question);
+      run = { questions: shuffle(missedQuestions).map(question => ({
+        ...question,
+        choices: shuffle(question.options.map((text, index) => ({ text, correct: index === question.answer })))
+      })), index: 0, score: 0, answers: [] };
+      renderQuestion();
+    });
+  }
+  $("#again").addEventListener("click", () => { run = null; renderSetup(); });
+  $("#back-review").addEventListener("click", () => showTab("rev"));
+  window.scrollTo({ top: 0, behavior: "smooth" });
+}
+
+function setCoc(id) {
+  scope = id;
+  run = null;
+  document.documentElement.style.setProperty("--col", colorFor(id));
+  document.querySelectorAll("#cocnav button").forEach(button => {
+    const selected = Number(button.dataset.coc) === id;
+    button.setAttribute("aria-selected", String(selected));
+    button.tabIndex = selected ? 0 : -1;
+  });
+  renderReviewer();
+  renderSetup();
+}
+
+$("#cocnav").innerHTML = COCS.map(coc => `
+  <button role="tab" type="button" data-coc="${coc.id}" aria-selected="false" tabindex="-1" style="--col:${coc.color}">COC ${coc.id}</button>`).join("");
+document.querySelectorAll("#cocnav button").forEach(button => {
+  button.addEventListener("click", () => setCoc(Number(button.dataset.coc)));
+});
+
+$("#tab-rev").addEventListener("click", () => showTab("rev"));
+$("#tab-quiz").addEventListener("click", () => showTab("quiz"));
+
+// Let keyboard users move between either set of tabs with the arrow keys.
+[...document.querySelectorAll("#cocnav button"), $("#tab-rev"), $("#tab-quiz")].forEach(button => {
+  button.addEventListener("keydown", event => {
+    if (!["ArrowLeft", "ArrowRight"].includes(event.key)) return;
+    const group = button.closest("nav");
+    const tabs = [...group.querySelectorAll('[role="tab"]')];
+    const currentIndex = tabs.indexOf(button);
+    const nextIndex = (currentIndex + (event.key === "ArrowRight" ? 1 : -1) + tabs.length) % tabs.length;
+    tabs[nextIndex].focus();
+    tabs[nextIndex].click();
+  });
+});
+
+setCoc(1);
